@@ -1,6 +1,12 @@
 from itertools import cycle
+from os import system
 
 from settings import SQUARES_INIT, SYMBOLS
+
+
+def clear_console() -> None:
+    """ Clear shell/terminal """
+    system('cls')
 
 
 def ask_player_to_play(player: str) -> None:
@@ -17,10 +23,13 @@ def ask_player_to_play(player: str) -> None:
         if answer in game_state.keys() and answer not in plays:
             # Update the grid with current player move
             game_state[answer] = player
+            # Clear shell/terminal
+            clear_console()
             # Update display
             display_board()
             # Add current player move to played moves list
             plays.append(answer)
+            # Exit function
             return
         # If invalid answer or already played move
         else:
@@ -121,11 +130,11 @@ if __name__ == '__main__':
             ask_player_to_play(current_player)
             # Check if the current game is over
             if is_there_a_winner(current_player) or is_draw():
-                # Check if players wants to rematch
+                # Check if players wants to rematch. If not exit while loop.
                 if not reset_game():
                     # Exit main loop
                     game_over = True
-                # Exit for loop
+                # If players want to play again exit for loop so the while loop can restart from beginning
                 break
-
-        print('Game Over!')
+        # Clear shell/terminal
+        clear_console()
